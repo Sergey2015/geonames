@@ -1,0 +1,51 @@
+
+
+# engine = create_engine('postgresql://admin:admin@172.20.110.2/default', echo = True)
+# metadata = MetaData()
+
+from sqlalchemy import create_engine, Table, MetaData
+import pandas as pd
+
+
+
+
+class DatabaseConnection:
+    def __init__(self, db_url):
+        self.db_url = db_url
+        self.engine = create_engine(self.db_url)
+        self.metadata = MetaData()
+        
+
+    def connect(self):
+        connection = self.engine.connect()
+        return connection
+
+    def get_table(self, table_name):
+        table = Table(table_name, self.metadata, autoload_with=self.engine)
+        return table
+    def get_df(self, table_name):
+        return pd.read_sql_table(table_name, self.engine)
+   
+    def write_df(self, table_name, df):
+        return df.to_sql(table_name, self.engine, if_exists='replace', index=False)
+    
+    def add_row(self, city_ascii_name, alternatenames, country_code, region_code, country, iso, region_name):
+        add_row = (
+            insert(get_table('geonames')).
+            values(city_ascii_name = city_ascii_name, alternatenames = alternatenames, country_code = country_code, region_code = region_code, country = country, iso = iso, region_name = region_name)
+                )
+        # Компиляция словарика (не обязательно)
+        # compiled = stmt.compile()
+        # compiled.params
+
+        with engine.connect() as conn:
+            result = conn.execute(add_row)
+            conn.commit()
+
+    
+
+# import os
+
+# username = os.environ.get('DATABASE_USERNAME', 'default_username')
+# password = os.environ.get('DATABASE_PASSWORD', 'default_password')
+# print(username)
