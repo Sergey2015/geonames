@@ -2,9 +2,29 @@
 
 # engine = create_engine('postgresql://admin:admin@172.20.110.2/default', echo = True)
 # metadata = MetaData()
-
-from sqlalchemy import create_engine, Table, MetaData
+print("111111111")
 import pandas as pd
+
+
+
+
+from fastapi import FastAPI, Request, File, UploadFile, BackgroundTasks, Form
+from fastapi.responses import HTMLResponse
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
+from typing import Annotated
+
+import pandas as pd
+#import sqlalchemy
+from zipfile import ZipFile
+import wget
+import os
+import json
+from sqlalchemy import MetaData, Table, String, Integer, Column, Text, DateTime, Boolean, insert #,MetaDatafrom
+from sqlalchemy import create_engine, text
+from sqlalchemy.orm import sessionmaker
+from sqlalchemy.ext.declarative import declarative_base
+from datetime import datetime
 
 
 
@@ -37,10 +57,14 @@ class DatabaseConnection:
         # Компиляция словарика (не обязательно)
         # compiled = stmt.compile()
         # compiled.params
-
-        with engine.connect() as conn:
+        with self.engine.connect() as conn:
             result = conn.execute(add_row)
             conn.commit()
+    def remove_table(self, table_name):
+        self.table_name = table_name
+        with self.engine.connect() as connection:
+            result = connection.execute(text(f"DROP table {self.table_name}"))
+            connection.commit()            
 
     
 
