@@ -1,12 +1,4 @@
-
-
-# engine = create_engine('postgresql://admin:admin@172.20.110.2/default', echo = True)
-# metadata = MetaData()
-print("111111111")
 import pandas as pd
-
-
-
 
 from fastapi import FastAPI, Request, File, UploadFile, BackgroundTasks, Form
 from fastapi.responses import HTMLResponse
