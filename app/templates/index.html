@@ -30,6 +30,7 @@
                         <input type="text" id="form1" class="form-control form-control-lg" name="query" defaultValue="1000" />
                         <label class="form-label" style="color:white;" for="form1">Enter a city name for mapping</label>
                    
+
                       </div>
                     </div>
                    
@@ -47,7 +48,13 @@
                   <br><div style="color: white;">Enter a query, please</div>
                   {% endif %}
           
-              
+                
+                    {% if city_name is defined %} <div style="color: white;" class="d-none d-sm-block">The place {{ city_name }} was added</div>
+                   
+                    {% endif %}
+
+                  
+                    <br><div style="color: white;" class="d-none d-sm-block"><a href="/item" style="color: white;">Click for add new place to DataBase</a></div>
 
 
             </div>

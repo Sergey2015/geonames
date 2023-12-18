@@ -42,8 +42,16 @@ class DatabaseConnection:
         return df.to_sql(table_name, self.engine, if_exists='replace', index=False)
     
     def add_row(self, city_ascii_name, alternatenames, country_code, region_code, country, iso, region_name):
+        self.city_ascii_name = city_ascii_name
+        self.alternatenames = alternatenames
+        self.country_code = country_code
+        self.region_code = region_code
+        self.country = country
+        self.iso = iso
+        self.region_name = region_name
+
         add_row = (
-            insert(get_table('geonames')).
+            insert(self.get_table('geonames')).
             values(city_ascii_name = city_ascii_name, alternatenames = alternatenames, country_code = country_code, region_code = region_code, country = country, iso = iso, region_name = region_name)
                 )
         # Компиляция словарика (не обязательно)

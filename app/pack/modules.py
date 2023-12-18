@@ -56,19 +56,21 @@ class get_result():
         self.city = city
         #for city in user_query:
         #df = df2
+     
         vectorizer = TfidfVectorizer(lowercase=True, analyzer="char", ngram_range=(2, 3))
         tfidf_matrix = vectorizer.fit_transform(df['alternatenames'])
 
         user_query_vector = vectorizer.transform([self.city])
-
+     
         df['cosine_similarity'] = cosine_similarity(tfidf_matrix, user_query_vector).flatten()
         df = df.groupby('city_ascii_name').max().reset_index()
         df.sort_values('cosine_similarity', ascending=False, inplace=True)
         df[df['cosine_similarity']>0]
         df = df.head(5)
-        # print(self.city)
-        # print(df[['city_ascii_name', 'region_name', 'country', 'cosine_similarity']].reset_index(drop=True))
+        #print(df)
+        #print(df[['city_ascii_name', 'region_name', 'country', 'cosine_similarity']].reset_index(drop=True))
         df = df[['city_ascii_name', 'region_name', 'country', 'cosine_similarity']].reset_index(drop=True)
         dict_df = df[['city_ascii_name', 'region_name', 'country', 'cosine_similarity']].reset_index(drop=True).to_dict('records')
+        
+        #print(dict_df)
         return df, dict_df
-
