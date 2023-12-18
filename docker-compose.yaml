@@ -6,9 +6,9 @@ services:
     #user: postgres
     env_file:
       - app/config.env
-    environment: 
-      POSTGRES_USER : 'admin'
-      POSTGRES_PASSWORD : 'admin222'
+    # environment: 
+    #   POSTGRES_USER : ''
+    #   POSTGRES_PASSWORD : ''
     volumes:
       - postgres:/var/lib/postgresql/data
     ports:
@@ -40,3 +40,4 @@ networks:
     todo_net:
 
 # 
+#
